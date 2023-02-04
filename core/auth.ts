@@ -74,9 +74,9 @@ export async function signInWithFacebook() {
 
 export async function resetEmail(email: string) {
   const { data, error } = await authClient.auth.resetPasswordForEmail(email);
-  if (error) throw new Error(error.message);
+  if (error) Alert.alert("Error", error.message);
 
-  return data;
+  return Alert.alert("Email Sent", "Check your email to reset your password");
 }
 
 // export async function resetLink(password: string) {
@@ -91,6 +91,11 @@ export async function resetEmail(email: string) {
 
 export async function signOut() {
   const { error } = await authClient.auth.signOut();
+  if (!error) Alert.alert("Signed out!", "Signed out!!");
+
+  if (error) {
+    Alert.alert(error.message);
+  }
 }
 
 export { authClient };

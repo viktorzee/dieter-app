@@ -1,10 +1,20 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 
-export type StackParamList = {
+export type MainDrawerParamList = {
+  MainDrawer: undefined;
+};
+
+export type MainDrawerParamsList = {
   Home: undefined;
+  DieticansList: undefined;
+  SpecialtiesList: undefined;
+  ResturantLocator: undefined;
+  Account: undefined;
+  Contact: undefined;
+};
+
+export type AuthStackParamList = {
   Login: undefined;
   SignUp: undefined;
   ForgotPassword: undefined;
 };
-
-export type StackNavigationProps = StackNavigationProp<StackParamList>;

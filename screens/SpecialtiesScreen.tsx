@@ -1,14 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-const ForgotPasswordSceen = () => {
+export default function SpecialtiesScreen() {
   return (
     <View>
-      <Text>ForgotPasswordSceen</Text>
+      <Text>SpecialtiesScreen</Text>
     </View>
   );
-};
-
-export default ForgotPasswordSceen;
+}
 
 const styles = StyleSheet.create({});
