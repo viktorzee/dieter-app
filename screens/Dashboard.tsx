@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function SpecialtiesScreen() {
+const Dashboard = () => {
   return (
     <View>
-      <Text>SpecialtiesScreen</Text>
+      <Text>DashboardScreen</Text>
     </View>
   );
-}
+};
+
+export default Dashboard;
 
 const styles = StyleSheet.create({});

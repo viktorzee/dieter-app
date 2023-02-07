@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function AccountScreen() {
+export default function Specialties() {
   return (
     <View>
-      <Text>AccountScreen</Text>
+      <Text>SpecialtiesScreen</Text>
     </View>
   );
 }

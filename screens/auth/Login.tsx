@@ -105,6 +105,15 @@ const Login = ({ navigation }: ParamList) => {
           <Text style={styles.forgotPassword}>Forgot Password?</Text>
         </TouchableOpacity>
       </View>
+      <View style={styles.buttons}>
+        <Button
+          onPress={() =>
+            signInWithEmail(credentials.email, credentials.password)
+          }
+        >
+          Log in
+        </Button>
+      </View>
       <View style={styles.iconContainer}>
         <IconButton
           color="blue"
@@ -114,15 +123,6 @@ const Login = ({ navigation }: ParamList) => {
           onPress={() => signInWithFacebook()}
         />
         <IconButton color="red" icon="logo-google" size={24} />
-      </View>
-      <View style={styles.buttons}>
-        <Button
-          onPress={() =>
-            signInWithEmail(credentials.email, credentials.password)
-          }
-        >
-          Log in
-        </Button>
       </View>
     </View>
   );
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   buttons: {
-    marginTop: 8,
+    marginTop: 25,
   },
   rememberMe: {
     marginTop: 20,

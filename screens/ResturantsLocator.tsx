@@ -1,10 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 
-export default function ContactUsScreen() {
+export default function ResturantsLocator() {
   return (
     <View>
-      <Text>ContactUsScreen</Text>
+      <Text>ResturantsLocatorScreen</Text>
     </View>
   );
 }

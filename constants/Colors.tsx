@@ -9,4 +9,5 @@ export const Colors = {
   accent500: "",
   input100: "#CDCDCD",
   textColor100: "#833636",
+  offWhite: "F8F0E3",
 };

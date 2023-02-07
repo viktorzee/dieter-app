@@ -1,34 +1,32 @@
 import "react-native-url-polyfill/auto";
 import React, { useEffect, useState } from "react";
-import { signOut, currentUser } from "./core";
-import SignUpScreen from "./screens/auth/SignUp";
-import { StatusBar } from "react-native";
-import Login from "./screens/auth/Login";
+import { useSelector, Provider } from "react-redux";
+import { Alert, StatusBar } from "react-native";
 import {
   createStackNavigator,
   StackScreenProps,
 } from "@react-navigation/stack";
-import { Colors } from "./constants/Colors";
-import DashboardScreen from "./screens/DashboardScreen";
-import IconButton from "./components/UI/IconButton";
-import AppLoading from "expo-app-loading";
-import { store, useAppSelector } from "./state-management/store";
-import { selectIsAuthenticated } from "./state-management/features/authSlice";
-import { useSelector, Provider } from "react-redux";
-import {
-  NavigationContainer,
-  NavigationProp,
-  useNavigation,
-} from "@react-navigation/native";
-import { useAppDispatch } from "./state-management/hook";
+import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import DieticansScreen from "./screens/DieticansScreen";
-import SpecialtiesScreen from "./screens/SpecialtiesScreen";
-import ResturantsLocatorScreen from "./screens/ResturantsLocatorScreen";
-import AccountScreen from "./screens/AccountScreen";
-import ContactUsScreen from "./screens/ContactUsScreen";
+import { Session } from "@supabase/supabase-js";
+import AppLoading from "expo-app-loading";
+
+import Login from "./screens/auth/Login";
+import SignUpScreen from "./screens/auth/SignUp";
 import ForgotPassword from "./screens/auth/ForgotPassword";
+import Account from "./screens/Account";
+import ContactUs from "./screens/Contactus";
+import Dashboard from "./screens/Dashboard";
+import Dieticans from "./screens/Dieticans";
+import Specialties from "./screens/Specialties";
+import ResturantsLocator from "./screens/ResturantsLocator";
+
+import { selectIsAuthenticated } from "./state-management/features/authSlice";
+import { signOut, authClient } from "./core";
 import { AuthStackParamList } from "./types/nav";
+import { Colors } from "./constants/Colors";
+import { store } from "./state-management/store";
+import HeaderRight from "./components/HeaderRightImage";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -36,14 +34,46 @@ const Drawer = createDrawerNavigator();
 function AuthenticatedDrawer({
   navigation,
 }: StackScreenProps<AuthStackParamList, "Login">) {
-  async function logoutHandler() {
-    try {
-      await signOut();
-      navigation.navigate("Login");
-    } catch (error) {
-      console.error(error);
+  const [userImage, setUserImage] = useState<string | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Fetch userImage from Supabase
+    async function getAvatar() {
+      try {
+        let { data, error, status } = await authClient
+          .from("profiles")
+          .select("avatar_url")
+          .eq("id", session?.user.id)
+          .single();
+
+        if (error && status !== 406) {
+          throw error;
+        }
+
+        if (data) {
+          setUserImage(data.avatar_url);
+        }
+      } catch (error) {
+        if (error instanceof Error) {
+          Alert.alert(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
     }
-  }
+    getAvatar();
+  }, []);
+
+  // async function logoutHandler() {
+  //   try {
+  //     await signOut();
+  //     navigation.navigate("Login");
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
   return (
     <Drawer.Navigator
@@ -52,41 +82,32 @@ function AuthenticatedDrawer({
           backgroundColor: "#351401",
         },
 
-        headerTintColor: "white",
+        // headerTintColor: "black",
         sceneContainerStyle: {
           backgroundColor: "#3f2f25",
         },
         drawerContentStyle: {
-          backgroundColor: Colors.primary500,
+          backgroundColor: Colors.offWhite,
         },
-        drawerInactiveTintColor: "white",
+        drawerInactiveTintColor: "black",
         drawerActiveTintColor: Colors.input100,
-        drawerActiveBackgroundColor: Colors.textColor100,
-        headerRight: ({ tintColor }) => (
-          <IconButton
-            color={tintColor}
-            icon="exit"
-            size={24}
-            onPress={() => logoutHandler()}
-          />
-        ),
+        drawerActiveBackgroundColor: Colors.primary500,
+        headerRight: () => <HeaderRight userImage={userImage} />,
       }}
     >
       <Drawer.Screen
         name="Home"
-        component={DashboardScreen}
+        component={Dashboard}
         options={{
-          title: "",
+          title: "Dashboard",
+          headerTitle: "",
         }}
       />
-      <Drawer.Screen name="DieticansList" component={DieticansScreen} />
-      <Drawer.Screen name="SpecialtiesList" component={SpecialtiesScreen} />
-      <Drawer.Screen
-        name="ResturantLocator"
-        component={ResturantsLocatorScreen}
-      />
-      <Drawer.Screen name="Account" component={AccountScreen} />
-      <Drawer.Screen name="Contact" component={ContactUsScreen} />
+      <Drawer.Screen name="DieticansList" component={Dieticans} />
+      <Drawer.Screen name="SpecialtiesList" component={Specialties} />
+      <Drawer.Screen name="ResturantLocator" component={ResturantsLocator} />
+      <Drawer.Screen name="Account" component={Account} />
+      <Drawer.Screen name="Contact" component={ContactUs} />
     </Drawer.Navigator>
   );
 }
@@ -97,6 +118,7 @@ function AuthStack() {
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary500 },
         headerTintColor: "white",
+        headerShown: false,
       }}
     >
       <Stack.Screen name="Login" component={Login} />
@@ -127,7 +149,6 @@ function AuthenticatedStack() {
 }
 
 function Root() {
-  const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = useSelector(selectIsAuthenticated);
 
   return (
