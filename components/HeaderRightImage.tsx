@@ -7,7 +7,8 @@ import {
   Text,
   View,
   StyleSheet,
-  Pressable,
+  TouchableOpacity,
+  Button,
 } from "react-native";
 import { NavigationProp } from "@react-navigation/native";
 
@@ -22,45 +23,44 @@ const HeaderRight: React.FC<Props> = ({ userImage, navigation }) => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [session, setSession] = useState<Session | null>(null);
 
+  const toggleModalVisibility = () => {
+    setModalVisible(true);
+  };
+
   return (
-    <View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View>
-          <View>
-            <Pressable android_ripple={{ color: "#cccc" }}>
-              <Text
-                onPress={() =>
-                  navigation.navigate("Account", {
-                    userId: session?.user.id,
-                  })
-                }
-              >
-                Profile
-              </Text>
-            </Pressable>
-            <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
-            ></Pressable>
+    <View style={{ marginRight: 15 }}>
+      <TouchableOpacity onPress={toggleModalVisibility}>
+        {userImage ? (
+          <Image source={{ uri: userImage }} style={styles.userImage} />
+        ) : (
+          <Image source={defaultImage} />
+        )}
+      </TouchableOpacity>
+      <Modal visible={modalVisible} animationType="slide" transparent={true}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "rgba(0,0,0,0.5)",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "#fff",
+              padding: 20,
+              borderRadius: 10,
+            }}
+          >
+            <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <Text style={{ color: "#007AFF" }}>Close</Text>
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <Text style={{ color: "#007AFF", marginTop: 10 }}>Logout</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
-      <View style={styles.image}>
-        <Pressable onPress={() => setModalVisible(!modalVisible)}>
-          {userImage ? (
-            <Image source={{ uri: userImage }} style={styles.userImage} />
-          ) : (
-            <Image source={defaultImage} />
-          )}
-        </Pressable>
-      </View>
     </View>
   );
 };
@@ -68,13 +68,24 @@ const HeaderRight: React.FC<Props> = ({ userImage, navigation }) => {
 export default HeaderRight;
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 60, // Adjust this value to position the modal as desired
+  },
+  modalContent: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 10,
+  },
   image: {
     paddingRight: 10,
   },
   userImage: {
     verticalAlign: "middle",
-    width: 50,
-    height: 50,
-    borderRadius: 50,
+    width: 30,
+    height: 30,
+    borderRadius: 15,
   },
 });

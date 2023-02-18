@@ -1,11 +1,19 @@
 import { StackNavigationProp } from "@react-navigation/stack";
 
-export type MainDrawerParamList = {
-  MainDrawer: undefined;
+export type MainStackParamList = {
+  SpecialtyDetail: {
+    specialtyId: string;
+  };
+  DieticianDetail: {
+    dietician_id: string;
+  };
+  Home: undefined;
 };
 
 export type MainDrawerParamsList = {
-  Home: undefined;
+  Home: {
+    userId: string;
+  };
   DieticansList: undefined;
   SpecialtiesList: undefined;
   ResturantLocator: undefined;

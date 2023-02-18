@@ -6,8 +6,8 @@ import { Alert } from "react-native";
 // supabase authentication and related code goes here
 
 const authClient = createClient(
-  "https://svjfuiwkwjerdsalnebg.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2amZ1aXdrd2plcmRzYWxuZWJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzI3NTE5OTUsImV4cCI6MTk4ODMyNzk5NX0.rC1TDXUaDz4eJILn6ypwvZpOLCQJfuFC0rmiLynvwxI"
+  "https://nsqjfcbjgzrpjluqwzro.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zcWpmY2JqZ3pycGpsdXF3enJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4Mjg1NjEsImV4cCI6MTk5MTQwNDU2MX0.suUCLe7yYpcNMlJsg6Zaurq_SVfdaudOAMBjPIOrY-Q"
 );
 
 const setRememberMe = async (value: string) => {
@@ -34,6 +34,9 @@ export async function createUser(email: string, password: string) {
     password,
   });
   if (error) throw new Error(error.message);
+
+  console.log(error.message, "error message");
+  console.log(data);
 
   return {
     accessToken: data.session?.access_token,

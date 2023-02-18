@@ -12,7 +12,7 @@ import { Session } from "@supabase/supabase-js";
 import AppLoading from "expo-app-loading";
 
 import Login from "./screens/auth/Login";
-import SignUpScreen from "./screens/auth/SignUp";
+import SignUp from "./screens/auth/SignUp";
 import ForgotPassword from "./screens/auth/ForgotPassword";
 import Account from "./screens/Account";
 import ContactUs from "./screens/Contactus";
@@ -27,6 +27,8 @@ import { AuthStackParamList } from "./types/nav";
 import { Colors } from "./constants/Colors";
 import { store } from "./state-management/store";
 import HeaderRight from "./components/HeaderRightImage";
+import SpecialtyDetail from "./screens/SpecialtyDetail";
+import DieticianDetail from "./screens/DieticianDetail";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -37,6 +39,7 @@ function AuthenticatedDrawer({
   const [userImage, setUserImage] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     // Fetch userImage from Supabase
@@ -79,12 +82,12 @@ function AuthenticatedDrawer({
     <Drawer.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#351401",
+          backgroundColor: "#D3D3D3",
         },
 
         // headerTintColor: "black",
         sceneContainerStyle: {
-          backgroundColor: "#3f2f25",
+          backgroundColor: "rgba(215, 181, 205, 1)",
         },
         drawerContentStyle: {
           backgroundColor: Colors.offWhite,
@@ -103,9 +106,15 @@ function AuthenticatedDrawer({
           headerTitle: "",
         }}
       />
-      <Drawer.Screen name="DieticansList" component={Dieticans} />
-      <Drawer.Screen name="SpecialtiesList" component={Specialties} />
-      <Drawer.Screen name="ResturantLocator" component={ResturantsLocator} />
+      <Drawer.Screen name="Dieticians " component={Dieticans} />
+      <Drawer.Screen name="Specialties " component={Specialties} />
+      <Drawer.Screen
+        name="ResturantLocator"
+        component={ResturantsLocator}
+        options={{
+          title: "Locate Resturant",
+        }}
+      />
       <Drawer.Screen name="Account" component={Account} />
       <Drawer.Screen name="Contact" component={ContactUs} />
     </Drawer.Navigator>
@@ -122,7 +131,7 @@ function AuthStack() {
       }}
     >
       <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="SignUp" component={SignUpScreen} />
+      <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
     </Stack.Navigator>
   );
@@ -134,7 +143,6 @@ function AuthenticatedStack() {
       screenOptions={{
         headerStyle: { backgroundColor: Colors.primary500 },
         headerTintColor: "white",
-        cardStyle: { backgroundColor: Colors.primary500 },
       }}
     >
       <Stack.Screen
@@ -142,6 +150,15 @@ function AuthenticatedStack() {
         component={AuthenticatedDrawer}
         options={{
           headerShown: false,
+        }}
+      />
+      <Stack.Screen name="Dieticians" component={Dieticans} />
+      <Stack.Screen name="SpecialtyDetail" component={SpecialtyDetail} />
+      <Stack.Screen
+        name="DieticianDetail"
+        component={DieticianDetail}
+        options={{
+          title: "Dietician",
         }}
       />
     </Stack.Navigator>
@@ -153,9 +170,10 @@ function Root() {
 
   return (
     <NavigationContainer>
-      {isAuthenticated === null && <AppLoading />}
+      {/* {isAuthenticated === null && <AppLoading />}
       {isAuthenticated === false && <AuthStack />}
-      {isAuthenticated === true && <AuthenticatedStack />}
+      {isAuthenticated === true && <AuthenticatedStack />} */}
+      <AuthenticatedStack />
     </NavigationContainer>
   );
 }

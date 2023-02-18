@@ -31,7 +31,7 @@ const Input = ({
         secureTextEntry={secureTextEntry}
         value={value}
         keyboardType={keyboardType}
-        style={[styles.input, isInvalid && styles.inputInvalid]}
+        style={[styles.input, style, isInvalid && styles.inputInvalid]}
       />
     </View>
   );
@@ -59,5 +59,7 @@ const styles = StyleSheet.create({
   },
   inputInvalid: {
     backgroundColor: Colors.error100,
+    borderWidth: 1,
+    borderColor: Colors.error500,
   },
 });

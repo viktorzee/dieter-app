@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { authenticate, signInWithFacebook } from "../../core";
-import { NavigationProp } from "@react-navigation/native";
+import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import { useAppDispatch, useAppSelector } from "../../state-management/hook";
 import {
@@ -21,6 +21,8 @@ import FlatButton from "../../components/UI/FlatButton";
 import IconButton from "../../components/UI/IconButton";
 import Button from "../../components/UI/Button";
 import Input from "../../components/Input";
+import { MainDrawerParamsList } from "../../types/nav";
+import { Session } from "@supabase/supabase-js";
 
 type ParamList = {
   navigation: NavigationProp<any, any>;
@@ -32,6 +34,7 @@ type FormFields = {
 };
 
 const Login = ({ navigation }: ParamList) => {
+  const [session, setSession] = useState<Session | null>();
   const [isLoading, setIsLoading] = useState(false);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
   const [credentials, setCredentials] = useState({
@@ -42,7 +45,9 @@ const Login = ({ navigation }: ParamList) => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigation.navigate("Home");
+      navigation.navigate("Home", {
+        userId: session?.user.id,
+      });
     }
   }, [isAuthenticated, navigation]);
 
@@ -53,12 +58,11 @@ const Login = ({ navigation }: ParamList) => {
   async function signInWithEmail(email: string, password: string) {
     setIsLoading(true);
     try {
-      const token = await authenticate(email, password);
-      dispatch(login(token));
+      await authenticate(email, password);
       setIsLoading(false);
     } catch (error: any) {
-      Alert.alert(error);
-      console.log(error);
+      Alert.alert(error.message);
+      console.log(error.message);
       setIsLoading(false);
     }
   }
@@ -113,6 +117,24 @@ const Login = ({ navigation }: ParamList) => {
         >
           Log in
         </Button>
+      </View>
+
+      <View style={styles.register}>
+        <Text>Don't have an account?</Text>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("SignUp");
+          }}
+        >
+          <Text
+            style={{
+              marginLeft: 5,
+              fontWeight: "bold",
+            }}
+          >
+            Register here
+          </Text>
+        </TouchableOpacity>
       </View>
       <View style={styles.iconContainer}>
         <IconButton
@@ -186,5 +208,11 @@ const styles = StyleSheet.create({
   label: {
     fontWeight: "400",
     fontSize: 20,
+  },
+  register: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 15,
+    justifyContent: "center",
   },
 });
