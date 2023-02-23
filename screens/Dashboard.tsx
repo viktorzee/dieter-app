@@ -37,48 +37,7 @@ const Dashboard = () => {
   if (!fontsLoaded) {
     return null;
   }
-
-  //show dieticians with high rating
-  const maxRating = Math.max(...dieticansData.map((diet) => diet.rating));
-  const topDieticians = dieticansData.filter(
-    (data) => data.rating === maxRating
-  );
-
-  const result = Object.values(
-    topDieticians.reduce((r, o) => {
-      r[o.name] = r[o.name] && r[o.name].value > o.rating ? r[o.name] : o;
-
-      return r;
-    }, {})
-  ).flat();
-
-  const showDieticians = dieticansData
-    .map((dietician) => {
-      const showSpecialty = data.find(
-        (specialty) => specialty.id === dietician.specialty_id
-      );
-      return (
-        <DieticansGrid
-          id={dietician.id}
-          certification={dietician.certification}
-          imageUri={dietician.imageUri}
-          rating={dietician.rating}
-          specialty={showSpecialty.name}
-          username={dietician.username}
-          key={dietician.id}
-        />
-      );
-    })
-    .slice(0, 2);
-  const showSpecialty = data
-    .map((specialty) => (
-      <SpecialityGrid
-        imageUri={specialty.imageUri}
-        name={specialty.name}
-        key={specialty.id}
-      />
-    ))
-    .slice(0, 6);
+  const topRatedDietician = dieticansData.sort((a, b) => b.rating - a.rating);
 
   function renderTopDieticians(itemData) {
     const showSpecialty = data.find(
@@ -131,7 +90,7 @@ const Dashboard = () => {
             </View>
             <FlatList
               renderItem={renderTopDieticians}
-              data={dieticansData.slice(0, 2)}
+              data={topRatedDietician.slice(0, 2)}
               numColumns={3}
               keyExtractor={(item) => item.id}
             />
