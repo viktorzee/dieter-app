@@ -4,4 +4,8 @@ This app was built on React Native (https://reactnative.dev).
 For Authentication I used Supabase (https://supabase.com)
 
 Auth Screens
-![Screenshot_20230224-170344](https://user-images.githubusercontent.com/65514728/221228666-d62f3434-c895-4fd6-ad24-89efadb95fd6.png) 
+
+
+![Screenshot_20230224-170344](https://user-images.githubusercontent.com/65514728/221233247-66691118-c057-4432-b7a9-3f9957049222.png) 
+
+Dashboard
