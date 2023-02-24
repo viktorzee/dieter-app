@@ -1,287 +1,106 @@
-export const dieticansData = [
-  {
-    id: "63e5055483f4b8367a7327c0",
-    name: "Erika Brewer",
-    username: "ErikaB",
-    email: "erikabrewer@combot.com",
-    isActive: false,
+import { faker } from "@faker-js/faker";
+import { Dietician } from "../models/dieticans";
+import { data } from "./specialtyData";
+
+const createDietician = (): Dietician => {
+  const sex = faker.name.sexType();
+  const firstName = faker.name.firstName(sex);
+  const lastName = faker.name.lastName();
+  const email = faker.helpers.unique(faker.internet.email, [
+    firstName,
+    lastName,
+  ]);
+  const fullName = `${firstName} ${lastName}`;
+
+  // for specialities
+  const numSpecialties = faker.datatype.number({ min: 1, max: 3 }); // Generate a random number of specialties between 1 and 3
+  const specialtyIds = [];
+  for (let j = 0; j < numSpecialties; j++) {
+    specialtyIds.push(faker.helpers.arrayElement(data).id);
+  }
+
+  console.log(specialtyIds, "ids");
+
+  // for member organizations
+  const organizations = [
+    null,
+    "Association of Nigerian Dieticians",
+    "Health and Hygiene Promotion Council of Nigeria",
+    "Association of Nigerian Dieticians",
+    "National Health Council (NHC)",
+    "Health & Care Professions Council(HCPC)",
+    "Association on Dental Professionals",
+  ];
+
+  const memberOrganizations = [];
+  const numOrganiztions = faker.datatype.number({ min: 1, max: 3 }); // Generate a random number of specialties between 1 and 3
+  for (let j = 0; j < numOrganiztions; j++) {
+    memberOrganizations.push(faker.helpers.arrayElement(organizations));
+  }
+
+  //for websites
+  const numWebsites = faker.datatype.number({ min: 1, max: 3 }); // Generate a random number of websites between 1 and 3
+  const websites = [];
+  for (let j = 0; j < numWebsites; j++) {
+    const website = {
+      id: faker.datatype.uuid(),
+      name: faker.internet.domainName(),
+      url: faker.internet.url(),
+    };
+    websites.push(website);
+  }
+
+  // For articles
+  const numArticles = faker.datatype.number({ min: 1, max: 5 }); // Generate a random number of articles between 1 and 5
+  const articles = [];
+  for (let j = 0; j < numArticles; j++) {
+    const articleId = faker.datatype.uuid();
+    const article = {
+      id: articleId,
+      title: faker.lorem.sentence(),
+      link: faker.internet.url(),
+    };
+    articles.push(article);
+  }
+
+  //for location
+  const location = `${faker.address.city()}, ${faker.address.state()}, ${faker.address.country()}, `;
+
+  //for price
+  const minPrice = 20;
+  const maxPrice = 50;
+  const price = faker.datatype.number({ min: minPrice, max: maxPrice });
+  const formattedPrice = faker.commerce.price(minPrice, maxPrice, 2, "£");
+
+  return {
+    id: faker.datatype.uuid(),
+    fullName,
+    username: faker.name.firstName(),
+    email,
+    birthday: faker.date.birthdate(),
+    sex,
+    isActive: faker.datatype.boolean(),
     certification: "RD",
-    specialty_id: "63e50ea646d49e58974ef56d",
-    imageUri: "https://randomuser.me/api/portraits/med/women/75.jpg",
-    gender: "Female",
-    registered: "2017-03-01T11:29:52",
-    rating: 4.65,
-    initialConsultation: 60,
-    followUpConsultation: 50,
-    description:
-      "In et nisl non neque congue pretium. Nullam pellentesque euismod odio, sed euismod lectus fermentum sodales. In sit amet urna dolor. Quisque aliquam est in turpis placerat, eget feugiat neque posuere. Suspendisse eros risus, commodo sit amet tortor congue, tristique placerat eros. Vestibulum feugiat iaculis quam ut suscipit. Sed eget nisl ut dolor ultrices aliquet ac at arcu. Vivamus consectetur, mauris eget ullamcorper porta, velit ante pretium justo, eu sagittis mi urna varius tortor. In vestibulum lectus non fermentum malesuada. Etiam bibendum dapibus odio, eu auctor ligula dignissim sit amet. Integer pharetra augue est, in placerat erat vehicula quis. Mauris finibus dolor dolor, ut mattis sem ullamcorper ac.",
-    memberOrganization: null,
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article11",
-        name: "How to Paint Like a Pro",
-      },
-      {
-        url: "https://www.example.com/article12",
-        name: "10 Easy DIY Projects",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e505544fd5ffbbc7e9284c",
-    name: "Alisha Shaffer",
-    username: "AlishaS",
-    email: "alishashaffer@combot.com",
-    isActive: true,
-    certification: "RD",
-    specialty_id: "63e50ea69cf8668b7d4646d7",
-    imageUri: "https://randomuser.me/api/portraits/med/women/72.jpg",
-    gender: "Female",
-    registered: "2018-02-15T08:03:27",
-    rating: 4.69,
-    initialConsultation: 50,
-    followUpConsultation: 45,
-    description:
-      "Integer ullamcorper blandit orci sit amet interdum. Cras faucibus arcu quam, non mattis arcu dictum quis. Morbi mollis vitae tellus vitae aliquet. Maecenas malesuada diam sit amet justo suscipit eleifend eget ut turpis. Fusce id erat non ipsum interdum semper sed volutpat felis. Pellentesque lacinia felis a sapien hendrerit ullamcorper. Vivamus a orci eget diam eleifend ullamcorper sit amet quis sapien. Duis nulla ligula, varius sed cursus in, ullamcorper quis lacus. Pellentesque a rhoncus massa. In malesuada turpis ut gravida ornare. Sed molestie tortor enim, vel fermentum eros rhoncus sit amet. Suspendisse porttitor porta justo et blandit. Nam cursus magna at arcu imperdiet fermentum. Phasellus mattis commodo finibus. Nulla finibus nibh eget odio tempus, id lobortis turpis malesuada. Mauris sollicitudin, tellus et lacinia sodales, ipsum tortor pulvinar mi, volutpat lobortis tortor elit nec lectus.",
-    memberOrganization: [
-      "Association of Nigerian Dieticians",
-      "Health and Hygiene Promotion Council of Nigeria",
-    ],
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article13",
-        name: "The Benefits of Running",
-      },
-      {
-        url: "https://www.example.com/article14",
-        name: "How to Write a Novel",
-      },
-      {
-        url: "https://www.example.com/article15",
-        name: "The Science of Nutrition",
-      },
-      {
-        url: "https://www.example.com/article16",
-        name: "10 Tips for Better Time Management",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e50554d5ad57b1b7277115",
-    name: "Walter Mcdonald",
-    username: "WalterM",
-    email: "waltermcdonald@combot.com",
-    isActive: true,
-    certification: "RD",
-    specialty_id: "63e50ea65ad608e8f75d0543",
-    imageUri: "https://randomuser.me/api/portraits/thumb/men/25.jpg",
-    gender: "Male",
-    registered: "2018-02-15T08:03:27",
-    rating: 4.75,
-    initialConsultation: 45,
-    followUpConsultation: 40,
-    description:
-      "Quisque dapibus sem eu purus ullamcorper, a placerat est ultricies. Proin pulvinar pretium convallis. Morbi risus ex, faucibus vel eros eget, finibus viverra nisi. Nulla pretium leo mi, in maximus tortor lobortis quis. Sed vestibulum dui nec elit sagittis efficitur. Phasellus interdum non magna a ultrices. Duis ut nunc sit amet sem consectetur commodo. Phasellus lacinia neque id porta tristique. Nam ac ultrices felis. Morbi fermentum risus ac tortor sodales ullamcorper. Integer facilisis diam molestie ullamcorper cursus. Ut magna tortor, feugiat vestibulum dictum dignissim, feugiat sit amet nulla. Sed sit amet mauris bibendum, placerat dui sed, rhoncus est. dictum libero",
-    memberOrganization: "Association of Nigerian Dieticians",
-    website: "https://www.google.com",
-    articles: [],
-    location: "London, UK",
-  },
-  {
-    id: "63e50554148edfaa3d28aaec",
-    name: "Judith Thompson",
-    username: "JudithT",
-    email: "judiththompson@combot.com",
-    isActive: false,
-    certification: "RD",
-    specialty_id: "63e50ea60388b1a01db49d08",
-    imageUri: "https://randomuser.me/api/portraits/thumb/women/25.jpg",
-    gender: "Female",
-    registered: "2021-06-09T03:25:13",
-    rating: 3.75,
-    initialConsultation: 50,
-    followUpConsultation: 45,
-    description:
-      "Aliquam erat volutpat. Sed facilisis lectus a magna condimentum pretium. Sed sit amet convallis nisl, malesuada tristique ante. Nullam a nibh libero. In enim quam, consectetur et pretium id, mattis in felis. Praesent venenatis, quam id luctus finibus, lacus justo blandit sem, eu mattis neque dui non mi. Vestibulum vulputate, enim non placerat molestie, diam augue blandit tortor, nec posuere nisl felis blandit mi. Pellentesque faucibus semper neque. In non semper dolor. Vivamus rutrum risus a mi tincidunt hendrerit. Donec quis elit elementum, sollicitudin enim eu, mattis eros. Sed quis elementum tellus. Maecenas interdum dapibus nisi at malesuada. Proin a cursus elit. Aenean fermentum elit a ipsum imperdiet, quis tempus tortor egestas. Nullam ultrices odio nec elit pretium viverra.",
-    memberOrganization: null,
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article10",
-        name: "The Benefits of Meditation",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e50554f47e85d90f2dc585",
-    name: "Kaitlin Shaw",
-    username: "KatlinS",
-    email: "kaitlinshaw@combot.com",
-    isActive: true,
-    certification: "RD",
-    specialty_id: "63e50ea655e7699f2f455132",
-    imageUri: "https://randomuser.me/api/portraits/thumb/women/35.jpg",
-    gender: "Female",
-    registered: "2022-09-29T11:18:26",
-    rating: 4.0,
-    initialConsultation: 35,
-    followUpConsultation: 30,
-    description:
-      "Vivamus justo nisl, tempus at interdum interdum, ornare in nunc. Mauris at orci sed tortor tincidunt mollis. Duis ullamcorper lobortis massa, non molestie dui ultricies sit amet. Integer ac ex pellentesque, accumsan dui tristique, mattis tellus. Maecenas vulputate ullamcorper ante, et mollis felis faucibus egestas. Maecenas facilisis sapien quis molestie euismod. Ut ut libero eget tortor convallis pretium. Cras ullamcorper tincidunt imperdiet. Nulla mollis eget sem vel facilisis. Donec vestibulum malesuada tortor a mattis. Donec non leo vehicula diam porttitor placerat. Pellentesque vitae consectetur elit. Pellentesque diam ante, tristique sit amet aliquam id, aliquet vel ante. Aliquam ni.",
-    memberOrganization: null,
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article9",
-        name: "10 Easy Recipes for Busy People",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e50554231f9332b7282ad9",
-    name: "Lynette Richmond",
-    username: "LynetteR",
-    email: "lynetterichmond@combot.com",
-    isActive: true,
-    certification: "RD",
-    specialty_id: "63e50ea6e229d2ffed9fcfaa",
-    imageUri: "https://randomuser.me/api/portraits/thumb/women/50.jpg",
-    gender: "Female",
-    registered: "2017-08-01T11:16:30",
-    rating: 3.98,
-    initialConsultation: 50,
-    followUpConsultation: 45,
-    description:
-      "Praesent dapibus aliquet erat, id convallis metus. Sed vel odio tellus. Aliquam sollicitudin tortor non augue consequat cursus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Quisque sodales vulputate lacinia. Curabitur finibus nunc justo, quis convallis nibh scelerisque porttitor. Nullam faucibus turpis tellus, id ultrices turpis pretium consequat. Etiam ullamcorper mi ac felis congue, vel egestas urna scelerisque. Praesent sagittis eros eu neque pretium commodo et sit amet sem. Duis cursus tincidunt ante id dictum. Maecenas auctor eget erat at fermentum. Maecenas iaculis iaculis turpis quis bibendum. Curabitur euismod sed dolor sed auctor. Mauris mattis facilisis augue, a condimentum elit vehicula vel. Curabitur justo velit, tempus quis lorem ac, cursus auctor augue. Nullam eu purus vestibulum, dignissim ligula eu, .",
-    memberOrganization: "National Health Council (NHC)",
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article8",
-        name: "The Benefits of Yoga",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e5055419c7c54ff5db56c8",
-    name: "Teresa Jordan",
-    username: "teresaJ",
-    email: "teresajordan@combot.com",
-    isActive: false,
-    certification: "RD",
-    specialty_id: "63e516228d76dbd565c60de7",
-    imageUri: "https://randomuser.me/api/portraits/thumb/women/55.jpg",
-    gender: "Female",
-    registered: "2018-02-15T08:03:27",
-    rating: 4.75,
-    initialConsultation: 50,
-    followUpConsultation: 45,
-    description:
-      "Pellentesque velit arcu, gravida placerat auctor tempor, accumsan vel quam. Sed finibus semper tellus et fermentum. Pellentesque vel leo tristique, maximus mi in, accumsan diam. Donec tempor metus eu ornare vehicula. Suspendisse mauris arcu, dignissim porta fermentum ut, facilisis quis lectus. Ut suscipit fermentum tortor consectetur porttitor. Donec sodales ante a elementum viverra. Suspendisse vestibulum massa enim, vel pharetra felis euismod at. Mauris pellentesque urna augue, vel tempor orci placerat eu. Proin in nulla et nisi sollicitudin faucibus eget ut turpis.  Aliquam erat volutpat. Duis consequat, tellus ac fermentum tincidunt, purus velit sagittis sem, a dignissim eros lectus vitae eros.",
-    memberOrganization: "Health & Care Professions Council(HCPC)",
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article1",
-        name: "The Art of Cooking",
-      },
-      {
-        url: "https://www.example.com/article2",
-        name: "The Science of Gardening",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e50554995e6976a27494d3",
-    name: "Floyd Pitts",
-    username: "Floydpitts",
-    email: "Floydpitts@combot.com",
-    isActive: false,
-    certification: "RD",
-    specialty_id: "63e50ea6e229d3f1ed90cfsa",
-    imageUri: "https://randomuser.me/api/portraits/thumb/men/55.jpg",
-    gender: "Male",
-    registered: "2018-02-15T08:03:27",
-    rating: 4.55,
-    initialConsultation: 60,
-    followUpConsultation: 50,
-    description:
-      "Sed malesuada congue urna, molestie convallis ipsum ultricies vitae. Sed venenatis porta mollis. Aliquam condimentum tristique magna, eget faucibus lectus varius ut. Cras eleifend lorem at arcu posuere, in luctus risus auctor. Sed metus erat, viverra sed auctor sed, faucibus non quam. Duis nisi massa, finibus id sagittis ac, aliquet sit amet sapien. Duis mattis vestibulum ligula eget finibus. Nulla laoreet, arcu at dapibus consectetur, eros nisl mattis risus, eget luctus lectus augue non tellus. Vivamus tempus orci sit amet turpis vulputate ultrices. Vivamus ut nisl a turpis fringilla pellentesque. Integer tempus porttitor ex eu pellentesque. Donec diam quam, elementum sed congue et, consectetur nec ipsum. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.",
-    memberOrganization: null,
-    website: "https://www.google.com",
-    articles: [],
-    location: "London, UK",
-  },
-  {
-    id: "63e505544e3bfebc788c1f04",
-    name: "Sellers Downs",
-    username: "Sellerdowns",
-    email: "Sellerdowns@combot.com",
-    isActive: true,
-    certification: "RD",
-    specialty_id: "63e5162297b8b6ac14be8371",
-    imageUri: "https://randomuser.me/api/portraits/thumb/men/45.jpg",
-    gender: "Male",
-    registered: "2021-10-16T08:42:23",
-    rating: 3.95,
-    initialConsultation: 45,
-    followUpConsultation: 40,
-    description:
-      "Donec vestibulum malesuada tortor a mattis. Donec non leo vehicula diam porttitor placerat. Pellentesque vitae consectetur elit. Pellentesque diam ante, tristique sit amet aliquam id, aliquet vel ante. Aliquam nisl massa, lobortis ut ornare sed, fringilla ac leo. Suspendisse sit amet porta ante, a pretium nulla. Sed metus ante, dignissim quis mattis sed, pretium ut nisi. Suspendisse porta nibh sapien, nec varius augue dictum et. In congue gravida fringilla. Nullam vel rhoncus urna. Integer eu condimentum ligula. Curabitur porta diam sit amet odio luctus, a consectetur nisl porta. Vivamus vestibulum vulputate tempor. Aliquam erat volutpat. Duis consequat, tellus ac fermentum tincidunt, purus velit sagittis sem, a dignissim eros lectus vitae eros.",
-    memberOrganization: "Association on Dental Professionals",
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article3",
-        name: "How to Train Your Dog",
-      },
-      {
-        url: "https://www.example.com/article4",
-        name: "10 Tips for Better Sleep",
-      },
-    ],
-    location: "London, UK",
-  },
-  {
-    id: "63e50554028c75080d21e36e",
-    name: "Shelton Little",
-    username: "SheltonL",
-    email: "Sheltonlittle@combot.com",
-    isActive: false,
-    certification: "RD",
-    specialty_id: "63e5162297b8b6ac14be8371",
-    imageUri: "https://randomuser.me/api/portraits/thumb/men/25.jpg",
-    gender: "Male",
-    registered: "2019-12-03T10:17:49",
-    rating: 4.05,
-    initialConsultation: 60,
-    followUpConsultation: 50,
-    description:
-      "Maecenas neque diam, finibus in malesuada id, vestibulum in massa. Curabitur placerat sem et neque bibendum, nec convallis nunc finibus. Nunc iaculis tempus velit, commodo interdum purus ultricies sit amet. Proin non est sed ipsum bibendum euismod sed nec justo. Fusce sed est sit amet metus dictum elementum in ac ex. Nunc et nulla sed turpis suscipit suscipit. Nulla facilisi. Mauris tincidunt, lectus vel congue eleifend, lectus nulla efficitur quam, in euismod quam lorem non neque Vivamus quis nibh eros. Mauris volutpat nec leo eget laoreet. Pellentesque sit amet pellentesque nibh. Aliquam lacinia quam mollis iaculis lacinia. Etiam quis lectus eget mi tristique euismod a sit amet ante. Nulla eu diam nunc. Praesent dignissim luctus urna, in varius odio interdum sed",
-    memberOrganization: null,
-    website: "https://www.google.com",
-    articles: [
-      {
-        url: "https://www.example.com/article5",
-        name: "The History of Art",
-      },
-      {
-        url: "https://www.example.com/article6",
-        name: "The Psychology of Color",
-      },
-      {
-        url: "https://www.example.com/article7",
-        name: "How to Start a Business",
-      },
-    ],
-    location: "London, UK",
-  },
-];
+    specialty_id: faker.helpers.arrayElement(data).id,
+    imageUri: faker.internet.avatar(),
+    subscriptionTier: faker.helpers.arrayElement(["free", "basic", "business"]),
+    registered: faker.date.between(
+      "2018-01-01T00:00:00.000Z",
+      "2022-01-01T00:00:00.000Z"
+    ),
+    rating: faker.datatype.float({ min: 1, max: 5 }),
+    initialConsultation: formattedPrice,
+    followUpConsultation: formattedPrice,
+    about: faker.lorem.paragraphs(),
+    memberOrganization: memberOrganizations,
+    website: websites,
+    articles: articles,
+    location,
+  };
+};
+
+const createDieticians = (numUsers) => {
+  return Array.from({ length: numUsers }, createDietician);
+};
+
+export const dieticansData = createDieticians(16);

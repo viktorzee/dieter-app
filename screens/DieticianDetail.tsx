@@ -93,10 +93,34 @@ export default function DieticianDetail() {
   };
 
   const displayArticles = () => {
-    if (selectedDeitician.articles.length > 0) {
+    if (
+      Array.isArray(selectedDeitician.articles) &&
+      selectedDeitician.articles.length > 0
+    ) {
       return (
         <View>
           {selectedDeitician.articles.map((article) => (
+            <TouchableOpacity
+              key={article.name}
+              onPress={() => handleWebsiteClick(article.url)}
+            >
+              <View>
+                <Text style={styles.link}>{article.title}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      );
+    } else {
+      return <Text>N/A</Text>;
+    }
+  };
+
+  const displayWebsite = () => {
+    if (selectedDeitician.website.length > 0) {
+      return (
+        <View>
+          {selectedDeitician.website.map((article) => (
             <TouchableOpacity
               key={article.name}
               onPress={() => handleWebsiteClick(article.url)}
@@ -127,7 +151,7 @@ export default function DieticianDetail() {
         />
         <View style={styles.modalContent}>
           <View style={styles.dieticianDetails}>
-            <Text style={styles.heading}>{selectedDeitician.name}</Text>
+            <Text style={styles.heading}>{selectedDeitician.fullName}</Text>
             <Text
               style={{
                 alignItems: "center",
@@ -167,7 +191,7 @@ export default function DieticianDetail() {
               <Text>
                 Initial consultation:{" "}
                 <Text style={{ fontWeight: "bold" }}>
-                  £{selectedDeitician.initialConsultation}/hour
+                  {selectedDeitician.initialConsultation}/hour
                 </Text>
               </Text>
               <Text>
@@ -180,7 +204,7 @@ export default function DieticianDetail() {
             {/* Description */}
             <View>
               <Text style={styles.subHeading}>About</Text>
-              <Text>{selectedDeitician.description}</Text>
+              <Text>{selectedDeitician.about}</Text>
             </View>
             {/* Qualification */}
             <View>
@@ -277,13 +301,7 @@ export default function DieticianDetail() {
             <View>
               <Text style={styles.subHeading}>Websites</Text>
 
-              <TouchableOpacity
-                onPress={() => handleWebsiteClick(selectedDeitician.website)}
-              >
-                <View>
-                  <Text style={styles.link}>{selectedDeitician.website}</Text>
-                </View>
-              </TouchableOpacity>
+              {displayWebsite()}
             </View>
             {/* Articles */}
             <View>
@@ -302,7 +320,7 @@ export default function DieticianDetail() {
               </View>
             </View>
             {/* Ratings and comments */}
-            <View>
+            {/* <View>
               <Text style={styles.subHeading}>
                 <IconButton
                   color="#F24E1E"
@@ -315,7 +333,7 @@ export default function DieticianDetail() {
               <View>
                 <Text>Commentz goes here</Text>
               </View>
-            </View>
+            </View> */}
           </View>
         </View>
       </Animated.ScrollView>

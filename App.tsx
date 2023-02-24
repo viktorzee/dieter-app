@@ -125,7 +125,7 @@ function AuthStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
+        headerStyle: { backgroundColor: "#D3D3D3" },
         headerTintColor: "white",
         headerShown: false,
       }}
@@ -141,7 +141,7 @@ function AuthenticatedStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: Colors.primary500 },
+        headerStyle: { backgroundColor: "#D3D3D3" },
         headerTintColor: "white",
       }}
     >

@@ -1,55 +1,25 @@
-type DietecianDetails = {
+import type { SexType } from "@faker-js/faker";
+
+type SubscriptionTier = "free" | "basic" | "business";
+export class Dietician {
   id: string;
-  dieticianId: string;
   fullName: string;
   username: string;
-  phone: string;
   email: string;
+  birthday: Date;
+  sex: SexType;
   isActive: boolean;
   certification: string;
-  speciality: string;
-  imageUrl: string;
-  gender: string;
-};
-
-export default class Dietican {
-  id: string;
-  fullName: string;
-  username: string;
-  phone: string;
-  email: string;
-  isActive: string;
-  certification: string;
-  speciality: string;
-  imageUrl: string;
-  gender: string;
-  registered: string;
+  specialty_id: any | any[];
+  imageUri: string;
+  subscriptionTier: SubscriptionTier;
+  registered: Date;
   rating: number;
-  constructor(
-    id,
-    fullName,
-    username,
-    phone,
-    email,
-    isActive,
-    certification,
-    speciality,
-    imageUrl,
-    gender,
-    registered,
-    rating
-  ) {
-    this.id = id;
-    this.fullName = fullName;
-    this.username = username;
-    this.phone = phone;
-    this.email = email;
-    this.isActive = isActive;
-    this.certification = certification;
-    this.speciality = speciality;
-    this.imageUrl = imageUrl;
-    this.gender = gender;
-    this.registered = registered;
-    this.rating = rating;
-  }
+  initialConsultation: string;
+  followUpConsultation: string;
+  about: string;
+  memberOrganization: string | string[];
+  website: any[];
+  articles: any[];
+  location: string;
 }
