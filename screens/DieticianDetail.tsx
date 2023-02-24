@@ -22,7 +22,6 @@ export default function DieticianDetail() {
   const route = useRoute<RouteProp<MainStackParamList, "DieticianDetail">>();
 
   const dieticianId = route.params.dietician_id;
-  console.log(dieticianId);
 
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -44,7 +43,6 @@ export default function DieticianDetail() {
     { useNativeDriver: true }
   );
 
-  console.log(selectedDeitician.memberOrganization);
   const displayMemberOrganization = () => {
     if (selectedDeitician.memberOrganization === null) {
       return <Text>N/A</Text>;
