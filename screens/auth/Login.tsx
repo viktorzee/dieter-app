@@ -196,7 +196,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     marginTop: 10,
   },

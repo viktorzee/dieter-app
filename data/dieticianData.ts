@@ -19,8 +19,6 @@ const createDietician = (): Dietician => {
     specialtyIds.push(faker.helpers.arrayElement(data).id);
   }
 
-  console.log(specialtyIds, "ids");
-
   // for member organizations
   const organizations = [
     null,

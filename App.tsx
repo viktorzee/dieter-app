@@ -170,10 +170,10 @@ function Root() {
 
   return (
     <NavigationContainer>
-      {/* {isAuthenticated === null && <AppLoading />}
+      {isAuthenticated === null && <AppLoading />}
       {isAuthenticated === false && <AuthStack />}
-      {isAuthenticated === true && <AuthenticatedStack />} */}
-      <AuthenticatedStack />
+      {isAuthenticated === true && <AuthenticatedStack />}
+      {/* <AuthenticatedStack /> */}
     </NavigationContainer>
   );
 }

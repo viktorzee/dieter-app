@@ -1,14 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient } from "@supabase/supabase-js";
-import Config from "react-native-config";
 import { Alert } from "react-native";
-
+import Constants from "expo-constants";
+import { REACT_APP_SUPABASE_API_URL, REACT_APP_SUPABASE_PK } from "@env";
 // supabase authentication and related code goes here
 
-const authClient = createClient(
-  "https://nsqjfcbjgzrpjluqwzro.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zcWpmY2JqZ3pycGpsdXF3enJvIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NzU4Mjg1NjEsImV4cCI6MTk5MTQwNDU2MX0.suUCLe7yYpcNMlJsg6Zaurq_SVfdaudOAMBjPIOrY-Q"
-);
+const supabaseUrl = REACT_APP_SUPABASE_API_URL;
+const supabaseKey = REACT_APP_SUPABASE_PK;
+
+const authClient = createClient(supabaseUrl, supabaseKey);
 
 const setRememberMe = async (value: string) => {
   try {
@@ -82,16 +82,7 @@ export async function resetEmail(email: string) {
   return Alert.alert("Email Sent", "Check your email to reset your password");
 }
 
-// export async function resetLink(password: string) {
-//   const { error, data } = await authClient.auth.updateUser("access_token", {
-//     password,
-//   });
-
-//   if (error) throw new Error(error.message);
-
-//   return data;
-// }
-
+//
 export async function signOut() {
   const { error } = await authClient.auth.signOut();
   if (!error) Alert.alert("Signed out!", "Signed out!!");
