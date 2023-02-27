@@ -38,7 +38,8 @@ const SignUp = ({
     password: "",
     cpassword: "",
   });
-
+  //Adamawa -> Fuffre
+  // APC -> 12, 633 , LP 897 pdp 26059
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
     cemail: false,
@@ -80,10 +81,14 @@ const SignUp = ({
       password: password,
     });
 
-    if (error) Alert.alert(error.message);
-    Alert.alert("Success", "Your account was created");
-    navigation.navigate("Login");
-    setIsLoading(false);
+    if (error) {
+      Alert.alert(error.message);
+      setIsLoading(false);
+    } else {
+      Alert.alert("Success", "Your account was created");
+      navigation.navigate("Login");
+      setIsLoading(false);
+    }
   }
 
   if (isLoading) {
@@ -183,7 +188,6 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 200,
-    // marginTop: 50,
     justifyContent: "center",
   },
   signUp: {
@@ -206,7 +210,7 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
     alignItems: "center",
     marginTop: 10,
   },

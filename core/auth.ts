@@ -1,12 +1,11 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient } from "@supabase/supabase-js";
 import { Alert } from "react-native";
-import Constants from "expo-constants";
-import { REACT_APP_SUPABASE_API_URL, REACT_APP_SUPABASE_PK } from "@env";
+import { SUPABASE_URL, SUPABASE_KEY } from "@env";
 // supabase authentication and related code goes here
 
-const supabaseUrl = REACT_APP_SUPABASE_API_URL;
-const supabaseKey = REACT_APP_SUPABASE_PK;
+const supabaseUrl = SUPABASE_URL;
+const supabaseKey = SUPABASE_KEY;
 
 const authClient = createClient(supabaseUrl, supabaseKey);
 
@@ -50,8 +49,10 @@ export async function authenticate(email: string, password: string) {
     password,
   });
 
+  console.log(email, password, "data");
+
   if (error) {
-    throw Alert.alert(error.message);
+    throw new Error(error.message);
   } else {
     return data.session?.access_token;
   }

@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { authenticate, signInWithFacebook } from "../../core";
+import { authClient, authenticate, signInWithFacebook } from "../../core";
 import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import { useAppDispatch, useAppSelector } from "../../state-management/hook";
@@ -58,7 +58,8 @@ const Login = ({ navigation }: ParamList) => {
   async function signInWithEmail(email: string, password: string) {
     setIsLoading(true);
     try {
-      await authenticate(email, password);
+      const token = await authenticate(email, password);
+      dispatch(login(token));
       setIsLoading(false);
     } catch (error: any) {
       Alert.alert(error.message);
