@@ -3,9 +3,7 @@ This idea was conceived and designed by a dietician/ UI/UX designer Miracle Eben
 This app was built on React Native (https://reactnative.dev).
 For Authentication I used Supabase (https://supabase.com)
 
-Auth Screens
+Screens
 
+![Picture2](https://user-images.githubusercontent.com/65514728/221555828-67519576-1f6d-4a6c-85a7-8ef3bca9724c.png)
 
-![Screenshot_20230224-170344](https://user-images.githubusercontent.com/65514728/221233247-66691118-c057-4432-b7a9-3f9957049222.png) 
-
-Dashboard
