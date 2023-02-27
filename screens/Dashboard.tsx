@@ -6,7 +6,7 @@ import {
   useNavigation,
   NavigationProp,
 } from "@react-navigation/native";
-import { MainDrawerParamsList, MainStackParamList } from "../types/nav";
+import { MainStackParamList } from "../types/nav";
 import SearchInput from "../components/SearchInput";
 
 import { useFonts } from "expo-font";

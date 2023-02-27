@@ -1,22 +1,12 @@
-import {
-  Alert,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
+import { Alert, Text, View, StyleSheet, ScrollView } from "react-native";
 import React, { useState } from "react";
 import { StackScreenProps } from "@react-navigation/stack";
 
-import { authClient, createUser, signInWithFacebook } from "../../core";
+import { authClient, signInWithFacebook } from "../../core";
 import { AuthStackParamList } from "../../types/nav";
 import { Colors } from "../../constants/Colors";
 
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
-import Checkbox from "../../components/UI/Checkbox";
-import FlatButton from "../../components/UI/FlatButton";
 import IconButton from "../../components/UI/IconButton";
 import Button from "../../components/UI/Button";
 import Input from "../../components/Input";

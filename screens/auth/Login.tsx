@@ -7,8 +7,8 @@ import {
   View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { authClient, authenticate, signInWithFacebook } from "../../core";
-import { NavigationProp, RouteProp, useRoute } from "@react-navigation/native";
+import { authenticate, signInWithFacebook } from "../../core";
+import { NavigationProp } from "@react-navigation/native";
 import LoadingOverlay from "../../components/UI/LoadingOverlay";
 import { useAppDispatch, useAppSelector } from "../../state-management/hook";
 import {
@@ -17,11 +17,9 @@ import {
 } from "../../state-management/features/authSlice";
 import { Colors } from "../../constants/Colors";
 import Checkbox from "../../components/UI/Checkbox";
-import FlatButton from "../../components/UI/FlatButton";
 import IconButton from "../../components/UI/IconButton";
 import Button from "../../components/UI/Button";
 import Input from "../../components/Input";
-import { MainDrawerParamsList } from "../../types/nav";
 import { Session } from "@supabase/supabase-js";
 
 type ParamList = {

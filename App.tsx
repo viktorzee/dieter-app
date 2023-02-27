@@ -22,7 +22,7 @@ import Specialties from "./screens/Specialties";
 import ResturantsLocator from "./screens/ResturantsLocator";
 
 import { selectIsAuthenticated } from "./state-management/features/authSlice";
-import { signOut, authClient } from "./core";
+import { authClient } from "./core";
 import { AuthStackParamList } from "./types/nav";
 import { Colors } from "./constants/Colors";
 import { store } from "./state-management/store";
@@ -39,7 +39,6 @@ function AuthenticatedDrawer({
   const [userImage, setUserImage] = useState<string | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
 
   useEffect(() => {
     // Fetch userImage from Supabase
